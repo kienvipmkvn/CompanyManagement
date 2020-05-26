@@ -1,0 +1,79 @@
+﻿@model CompanyManagement.Models.Company
+
+@{
+    ViewBag.Title = "Delete";
+    var account = Session["admin"] as CompanyManagement.Areas.Admin.Models.Account;
+}
+
+<h2>Delete</h2>
+@{
+    if (account != null)
+    {
+        <h3 style="color: red">Are you sure that you want to delete this? Some data will be lost!</h3>
+        <div>
+            <h4>Company</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NumberofEmployee)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NumberofEmployee)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telephone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Telephone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EstablishmentDay)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.EstablishmentDay)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" onclick="return cfDel()"/> |
+                    @Html.ActionLink("Back to List", "Index")
+                    <script>
+                        function cfDel() {
+                            return(confirm('Are you sure?'));
+                        }
+                    </script>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p style="font-size:15px">You have to <a href="/Admin/Login/Login" style="color:red">login</a> first!</p>
+    }
+}

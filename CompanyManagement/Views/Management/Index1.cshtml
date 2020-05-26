@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CompanyManagement.Models.Company>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index1";
+}
+
+<h2>Company</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberofEmployee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telephone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstablishmentDay)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberofEmployee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstablishmentDay)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.CompanyID })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+
+<p>Page @ViewBag.CurrentPage of @(ViewBag.NoOfRecord / ViewBag.NumRow + 1)</p>
+<div class="pagination">
+    <ul class="pagination">
+        @{
+            if (ViewBag.CurrentPage != 1)
+            {
+                <li><a href="/Management/Index1?page=@(ViewBag.CurrentPage-1)" rel="prev">«</a></li>
+            }
+            for (int i = 1; i <= ViewBag.NoOfRecord / ViewBag.NumRow + 1; i++)
+            {
+
+                if (ViewBag.CurrentPage == i)
+                {
+                    <li class="active"><a href="#">@i</a></li>
+                }
+                else
+                {
+                    <li><a href="/Management/Index1?page=@i">@i</a></li>
+                }
+            }
+
+            if (ViewBag.CurrentPage != ViewBag.NoOfRecord / ViewBag.NumRow + 1)
+            {
+                <li><a href="/Management/Index1?page=@(ViewBag.CurrentPage+1)" rel="next">»</a></li>
+            }
+        }
+    </ul>
+</div>
+

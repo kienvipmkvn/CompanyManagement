@@ -1,0 +1,238 @@
+﻿@model PagedList.IPagedList<CompanyManagement.Models.Company>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    th {
+        background-color: lightgray;
+        color: white;
+        width: 200px;
+        padding: 12px;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .not-active {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: black;
+    }
+</style>
+@{
+    ViewBag.Title = "Company";
+    CompanyManagement.Areas.Admin.Models.Account account = Session["admin"] as CompanyManagement.Areas.Admin.Models.Account;
+}
+
+<h2>List company</h2>
+
+@using (Html.BeginForm("Index", "Management", FormMethod.Get))
+{
+    <p>
+        @Html.TextBox("str", null, new { @placeholder = "Company name", @class = "form-control" })
+        <input type="submit" value="Search" />
+    </p>
+}
+<br />
+@{
+    if (account != null)
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    }
+}
+<div>
+    <table>
+        <tr>
+            <th>
+                @if (ViewBag.CurrentSort == "name" || ViewBag.CurrentSort == "desc_name")
+                {
+                    if (ViewBag.CurrentSort == "name")
+                    {
+                        @Html.ActionLink("Name ▼", "Index",
+                        new { sortOrder = ViewBag.SortName, str = ViewBag.SearchStr })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Name ▲", "Index",
+                        new { sortOrder = ViewBag.SortName, str = ViewBag.SearchStr })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Name", "Index",
+                    new { sortOrder = ViewBag.SortName, str = ViewBag.SearchStr })
+                }
+                @*@Html.DisplayNameFor(model => model.Name)*@
+            </th>
+            <th>
+                @if (ViewBag.CurrentSort == "noe" || ViewBag.CurrentSort == "desc_noe")
+                {
+                    if (ViewBag.CurrentSort == "noe")
+                    {
+                        @Html.ActionLink("Number of employees ▲", "Index",
+                        new { sortOrder = ViewBag.SortNoE, str = ViewBag.SearchStr })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Number of employees ▼", "Index",
+                        new { sortOrder = ViewBag.SortNoE, str = ViewBag.SearchStr })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Number of employees", "Index",
+                    new { sortOrder = ViewBag.SortNoE, str = ViewBag.SearchStr })
+                }
+                @*@Html.DisplayNameFor(model => model.NumberofEmployee)*@
+            </th>
+            <th>
+                @if (ViewBag.CurrentSort == "add" || ViewBag.CurrentSort == "desc_add")
+                {
+                    if (ViewBag.CurrentSort == "add")
+                    {
+                        @Html.ActionLink("Address ▼", "Index",
+                        new { sortOrder = ViewBag.SortAddress, str = ViewBag.SearchStr })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Address ▲", "Index",
+                        new { sortOrder = ViewBag.SortAddress, str = ViewBag.SearchStr })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Address", "Index",
+                   new { sortOrder = ViewBag.SortAddress, str = ViewBag.SearchStr })
+                }
+                @*@Html.DisplayNameFor(model => model.Address)*@
+            </th>
+            <th>
+                @if (ViewBag.CurrentSort == "Phone" || ViewBag.CurrentSort == "desc_Phone")
+                {
+                    if (ViewBag.CurrentSort == "Phone")
+                    {
+                        @Html.ActionLink("Telephone ▼", "Index",
+                        new { sortOrder = ViewBag.SortPhone, str = ViewBag.SearchStr })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Telephone ▲", "Index",
+                        new { sortOrder = ViewBag.SortPhone, str = ViewBag.SearchStr })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Telephone", "Index",
+                    new { sortOrder = ViewBag.SortPhone, str = ViewBag.SearchStr })
+                }
+                @*@Html.DisplayNameFor(model => model.Telephone)*@
+            </th>
+            <th>
+                @if (ViewBag.CurrentSort == "Ed" || ViewBag.CurrentSort == "desc_Ed")
+                {
+                    if (ViewBag.CurrentSort == "Ed")
+                    {
+                        @Html.ActionLink("EstablishmentDay ▼", "Index",
+                        new { sortOrder = ViewBag.SortEd, str = ViewBag.SearchStr })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("EstablishmentDay ▲", "Index",
+                        new { sortOrder = ViewBag.SortEd, str = ViewBag.SearchStr })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("EstablishmentDay", "Index",
+                    new { sortOrder = ViewBag.SortEd, str = ViewBag.SearchStr })
+                }
+                @*@Html.DisplayNameFor(model => model.EstablishmentDay)*@
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberofEmployee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstablishmentDay)
+                </td>
+                @{
+                    if (account != null)
+                    {
+                        <td>
+
+                            @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.CompanyID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.CompanyID })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.CompanyID })
+                        </td>
+                    }
+                }
+            </tr>
+        }
+
+    </table>
+</div>
+<br />
+<div class="pagination">
+    <div style="font-size: 18px; color:gray">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+    <ul class="pagination">
+        @{
+            if (Model.PageNumber == 1)
+            {
+                <li><a class="not-active" style="color:lightgray">«</a></li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("«", "Index", new { sortOrder = ViewBag.CurrentSort, str = ViewBag.SearchStr, page = Model.PageNumber - 1 })</li>
+            }
+            for (int i = 1; i <= Model.PageCount; i++)
+            {
+
+                if (Model.PageNumber == i)
+                {
+                    <li class="active"><a href="#">@i</a></li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink(i.ToString(), "Index", new { sortOrder = ViewBag.CurrentSort, str = ViewBag.SearchStr, page = i })</li>
+                }
+            }
+
+            if (Model.PageNumber != Model.PageCount)
+            {
+                <li>@Html.ActionLink("»", "Index", new { sortOrder = ViewBag.CurrentSort, str = ViewBag.SearchStr, page = Model.PageNumber + 1 })</li>
+            }
+            else
+            {
+                <li><a class="not-active" style="color:lightgray">»</a></li>
+            }
+        }
+    </ul>
+</div>
